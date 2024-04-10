@@ -1,5 +1,3 @@
---getgenv().Webhook = "https://discord.com/api/webhooks/1208822291165880421/IPl0_iZqvB4nZJjLx08dq-IK0jYuz3p1XTSVu92tF7w5z1At0QdKkvtMgH4mLQ9SCIt1"
-
 function SendMessage(url, message)
     local http = game:GetService("HttpService")
     local headers = {

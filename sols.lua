@@ -1,3 +1,4 @@
+if game.PlaceId ~= 15532962292 then return end
 function SendMessage(url, message)
     local http = game:GetService("HttpService")
     local headers = {

@@ -42,6 +42,15 @@ function SendMessageEMBED(url, embed)
         Body = body
     })
 end
+
+--antiafk
+local vu = game:GetService("VirtualUser")
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+wait(1)
+vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
+
 local oldinventory = nil
 
 game:GetService("Players").LocalPlayer.leaderstats.Rolls:GetPropertyChangedSignal("Value"):Connect(function()
@@ -106,6 +115,12 @@ game:GetService("Players").LocalPlayer.leaderstats.Rolls:GetPropertyChangedSigna
     end
 
     oldinventory = inventory
+end)
+
+game:GetService("Players").LocalPlayer.PlayerGui.MainInterface.CurrentTime.Weather:GetPropertyChangedSignal("Text"):Connect(function()
+    if getgenv().WeatherWebhook == nil or getgenv().WeatherWebhook == "" then return end
+    local weather = game:GetService("Players").LocalPlayer.PlayerGui.MainInterface.CurrentTime.Weather.Text
+    SendMessage(getgenv().WeatherWebhook,weather.." weather")
 end)
 
 function areTablesEqual(table1, table2)

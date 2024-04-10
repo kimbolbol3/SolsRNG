@@ -56,17 +56,21 @@ game:GetService("Players").LocalPlayer.leaderstats.Rolls:GetPropertyChangedSigna
             local aura = inventory[numbers[1]+2].BaseFrame.AuraName.Text
             local rarity = game:GetService("ReplicatedStorage").TiersUI:FindFirstChild(inventory[numbers[1]+2].BaseFrame.AuraName.Text).Rarity.Text
             local coin = game:GetService("Players").LocalPlayer.PlayerGui.MainInterface.Coin.Text
-            local inventorylabe = ""
-            for i,v in pairs(inventory) do
+            local itemCounts = {}
+            for _, v in pairs(inventory) do
                 if v:IsA("Frame") and v.Name ~= "ItemASDF" then
-                    if i == numbers[2] then
-                        inventorylabe = inventorylabe .. tostring(v.BaseFrame.AuraName.Text)
-                    else
-                        inventorylabe = inventorylabe .. tostring(v.BaseFrame.AuraName.Text) .. ", "
-                    end
+                    local itemName = v.BaseFrame.AuraName.Text
+                    itemCounts[itemName] = (itemCounts[itemName] or 0) + 1
                 end
-                
             end
+            local inventoryLabel = ""
+            for itemName, count in pairs(itemCounts) do
+                if inventoryLabel ~= "" then
+                    inventoryLabel = inventoryLabel .. ", "
+                end
+                inventoryLabel = inventoryLabel .. itemName .. " (" .. count .. "x)"
+            end
+
             local embed = {
                 ["title"] = "Sol's aura Epic Tracker!!!!!!",
                 ["description"] = "",
@@ -89,7 +93,7 @@ game:GetService("Players").LocalPlayer.leaderstats.Rolls:GetPropertyChangedSigna
                     },
                     {
                         ["name"] = `Your Inventory {numbers[1]}/{numbers[2]}`,
-                        ["value"] = `{inventorylabe}`,
+                        ["value"] = `{inventoryLabel}`,
                     }
                 },
                 ["footer"] = {
